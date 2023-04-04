@@ -50,7 +50,7 @@ bot.command('url', async ctx => {
 	}
 });
 
-bot.on('text', async ctx => {
+bot.on('message', async ctx => {
 	// Using context shortcut
 	await ctx.reply('Please use /url command to send URLs');
 });
