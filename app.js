@@ -2,10 +2,12 @@ import { Telegraf } from 'telegraf';
 import dotenv from 'dotenv';
 import { makePostReq } from './externalRequestUtil.js';
 import express from 'express'
-import { webhookCallback } from 'grammy';
+import { webhookCallback, Bot } from 'grammy';
+import grammy from 'grammy';
 dotenv.config();
 
-const bot = new Telegraf(process.env.BOT_TOKEN);
+// const bot = new Telegraf(process.env.BOT_TOKEN);
+const bot = new Bot(process.env.BOT_TOKEN);
 
 // Start the server
 if (process.env.NODE_ENV === 'production') {
