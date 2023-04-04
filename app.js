@@ -3,6 +3,14 @@ import dotenv from 'dotenv';
 import { makePostReq } from './externalRequestUtil.js';
 dotenv.config();
 
+const app = express();
+app.get('/', (req, res) => {
+	res.send('Okay, working');
+});
+
+const port = 3035;
+app.listen(port, () => console.log('Server running at port', port));
+
 const bot = new Telegraf(process.env.BOT_TOKEN);
 bot.start(ctx => ctx.reply('Welcome to the URL Shortener Bot. Use /url to send url to shorten. Send command like "/url https://www.reddit.com/r/AskReddit"'));
 
