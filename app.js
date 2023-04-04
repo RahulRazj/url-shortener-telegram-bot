@@ -2,17 +2,25 @@ import { Telegraf } from 'telegraf';
 import dotenv from 'dotenv';
 import { makePostReq } from './externalRequestUtil.js';
 import express from 'express'
+import { webhookCallback } from 'grammy';
 dotenv.config();
 
-const app = express();
-app.get('/', (req, res) => {
-	res.send('Okay, working');
-});
-
-const port = 3035;
-app.listen(port, () => console.log('Server running at port', port));
-
 const bot = new Telegraf(process.env.BOT_TOKEN);
+
+// Start the server
+if (process.env.NODE_ENV === 'production') {
+	// Use Webhooks for the production server
+	const app = express();
+	app.use(express.json());
+	app.use(webhookCallback(bot, 'express'));
+
+	const PORT = process.env.PORT || 3000;
+	app.listen(PORT, () => {
+		console.log(`Bot listening on port ${PORT}`);
+	});
+}
+
+
 bot.start(ctx => ctx.reply('Welcome to the URL Shortener Bot. Use /url to send url to shorten. Send command like "/url https://www.reddit.com/r/AskReddit"'));
 
 bot.command('url', async ctx => {
